@@ -1,0 +1,26 @@
+name: FoxESS Local
+version: "0.1.1"
+slug: foxess_local
+description: Local FoxESS Smart WiLAN telemetry to MQTT with Home Assistant discovery
+url: https://github.com/your/foxess-local
+arch:
+  - aarch64
+  - amd64
+init: false
+startup: application
+boot: auto
+# Auto-wires to the Home Assistant MQTT service (Mosquitto broker add-on).
+services:
+  - mqtt:need
+# fox_host is intentionally blank — you MUST set your inverter's IP address
+# on the Configuration tab before starting the add-on.
+options:
+  fox_host: ""
+  interval: 15
+  topic_prefix: "fox"
+  discovery_prefix: "homeassistant"
+schema:
+  fox_host: str
+  interval: int(5,3600)
+  topic_prefix: str
+  discovery_prefix: str
