@@ -26,7 +26,7 @@ you don't configure them here.
 - **Log** tab should show: `FoxESS device : …`, `MQTT broker : …`, then periodic
   activity with no errors.
 - **Settings → Devices & Services → MQTT** now lists a device
-  **FoxESS AIO-H1-11.4-US** with ~21 sensors (battery SoC/power/voltage/…,
+  **FoxESS AIO-H1-11.4-US** with ~23 sensors (battery SoC/power/voltage/…,
   solar, grid, inverter).
 
 ## Options
