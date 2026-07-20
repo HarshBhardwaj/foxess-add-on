@@ -3,15 +3,16 @@ name: Build & publish add-on images
 on:
   push:
     branches: [main]
-    paths:
-      - "foxess_local/**"
-      - ".github/workflows/build.yaml"
+    paths: ["foxess_local/**", ".github/workflows/build.yaml"]
+  pull_request:
+    branches: [main]
+    paths: ["foxess_local/**", ".github/workflows/build.yaml"]
   workflow_dispatch:
 
 jobs:
   build:
     name: Build ${{ matrix.arch }}
-    runs-on: [self-hosted, foxess-add-on]      # your 5 runners
+    runs-on: [self-hosted, foxess-add-on]
     permissions:
       contents: read
       packages: write
@@ -19,23 +20,24 @@ jobs:
       matrix:
         arch: [aarch64, amd64]
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-      - name: Set up Buildx
-        uses: docker/setup-buildx-action@v3
       - name: Log in to GHCR
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push ${{ matrix.arch }}
+      - name: Build ${{ matrix.arch }}
         uses: home-assistant/builder@master
         with:
-          args: |
-            --${{ matrix.arch }} \
-            --target foxess_local \
-            --image "{arch}-foxess_local" \
-            --docker-hub "ghcr.io/harshbhardwaj" \
+          args: >-
+            --${{ matrix.arch }}
+            --target foxess_local
+            --image "{arch}-foxess_local"
+            --docker-hub "ghcr.io/harshbhardwaj"
             --addon
+            ${{ github.event_name == 'pull_request' && '--test' || '' }}
