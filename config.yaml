@@ -2,7 +2,7 @@ name: FoxESS Local
 version: "0.1.1"
 slug: foxess_local
 description: Local FoxESS Smart WiLAN telemetry to MQTT with Home Assistant discovery
-url: https://github.com/your/foxess-local
+url: https://github.com/HarshBhardwaj/foxess-local
 arch:
   - aarch64
   - amd64
