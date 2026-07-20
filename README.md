@@ -1,55 +1,52 @@
-# FoxESS Local — Home Assistant Add-on
+# FoxESS Local — Home Assistant Add-on Repository
 
-Runs the local FoxESS Smart WiLAN → MQTT bridge directly on your Home Assistant
-machine. It reads your inverter over the LAN (no FoxCloud) and publishes ~21
-sensors via MQTT Discovery, so a **FoxESS** device appears automatically in Home
-Assistant. Broker credentials are pulled from the Home Assistant MQTT service —
-you don't configure them here.
+Fully local FoxESS Smart WiLAN → MQTT bridge for Home Assistant. Reads your
+inverter over the LAN (no FoxCloud, no account, no internet) and publishes ~23
+sensors via MQTT Discovery, so a **FoxESS** device appears automatically in
+Home Assistant — battery, solar, grid, and inverter, ready for the Energy
+dashboard.
 
-## Install (local add-on)
+## One-click install
 
-1. Copy the `foxess_local` folder into the `addons/` share on your Home
-   Assistant host. Get there with the **Samba share** add-on
-   (`\\homeassistant\addons`) or the **Advanced SSH & Web Terminal** add-on
-   (`/addons/foxess_local/…`).
-2. In Home Assistant: **Settings → Add-ons → Add-on Store**, open the top-right
-   menu (⋮) and choose **Check for updates** / reload. A **Local add-ons**
-   section now shows **FoxESS Local**.
-3. Open it, click **Install** (it builds the image — takes a minute).
-4. Go to the **Configuration** tab and set `fox_host` to **your** inverter's IP
-   address (it ships blank on purpose — the add-on won't start until you set it).
-   Leave the rest at defaults.
-5. **Start** the add-on. Enable **Start on boot** and **Watchdog**.
+[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FHarshBhardwaj%2Ffoxess-add-on)
 
-## Verify
+1. Click the button above (or **Settings → Add-ons → Add-on Store → ⋮ →
+   Repositories**, paste `https://github.com/HarshBhardwaj/foxess-add-on`, Add).
+2. The store now lists **FoxESS Local** under this repository — open it and click
+   **Install**.
+3. On the **Configuration** tab, set `fox_host` to your inverter's IP address
+   (it ships blank on purpose) and **Save**.
+4. **Start** the add-on, and enable **Start on boot** + **Watchdog**.
 
-- **Log** tab should show: `FoxESS device : …`, `MQTT broker : …`, then periodic
-  activity with no errors.
-- **Settings → Devices & Services → MQTT** now lists a device
-  **FoxESS AIO-H1-11.4-US** with ~23 sensors (battery SoC/power/voltage/…,
-  solar, grid, inverter).
+## Requirements
 
-## Options
+- Home Assistant OS or Supervised (add-ons).
+- The **Mosquitto broker** add-on and the **MQTT** integration (the add-on pulls
+  the broker credentials from Home Assistant automatically — no config needed).
+- Your FoxESS device reachable on the LAN (a static DHCP reservation is
+  recommended so its IP stays stable).
 
-| Option | Default | Meaning |
-|--------|---------|---------|
-| `fox_host` | *(blank — required)* | Your inverter/gateway IP address; you must set this |
-| `interval` | `15` | Publish interval in seconds |
-| `topic_prefix` | `fox` | MQTT topic prefix for state topics |
-| `discovery_prefix` | `homeassistant` | HA discovery prefix (leave as-is) |
+## What you get
 
-## Energy dashboard
+A single Home Assistant device (**FoxESS `<model>`**, keyed by inverter serial)
+with ~23 sensors: battery SoC / power / voltage / current / temperature / health
+/ energy (available + lifetime charge & discharge), solar power + daily/total
+energy, grid power / frequency / voltage / current / power factor, and inverter
+temperature / state. The solar and battery energy sensors use
+`state_class: total_increasing`, so they drop straight into the **Energy
+dashboard**.
 
-The solar energy sensors use `state_class: total_increasing`, so add
-**Solar Energy Total** under **Settings → Dashboards → Energy → Solar
-Production**. (Grid/load instantaneous power needs a CT meter, which this
-inverter install doesn't have — solar and battery come straight from the
-inverter.)
+See [`foxess_local/README.md`](foxess_local/README.md) for full details and
+options.
 
 ## Notes
 
-- Requires the **Mosquitto broker** add-on and the **MQTT** integration (you
-  already have both).
-- The add-on only *reads* the inverter; it never writes. Writes remain a
-  separate, opt-in Python API on a trusted host.
-- Prefer a static DHCP reservation for the inverter so `fox_host` stays valid.
+- The add-on only **reads** the inverter — it never writes.
+- Grid/load instantaneous power needs a CT meter (not fitted on all installs);
+  solar and battery come straight from the inverter.
+- Treat the device as an untrusted IoT endpoint: dedicated VLAN, firewalled,
+  never exposed to the internet.
+
+## License
+
+MIT
