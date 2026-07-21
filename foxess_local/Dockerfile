@@ -9,9 +9,9 @@ RUN apk add --no-cache python3 py3-pip
 
 # Install the bundled foxess-local wheel with the MQTT extra (pure-Python deps,
 # so this works on every architecture without compilation).
-COPY foxess_local-0.1.0-py3-none-any.whl /tmp/
+COPY foxess_local-0.2.0-py3-none-any.whl /tmp/
 RUN pip3 install --no-cache-dir --break-system-packages \
-        "/tmp/foxess_local-0.1.0-py3-none-any.whl[mqtt]" \
+        "/tmp/foxess_local-0.2.0-py3-none-any.whl[mqtt]" \
     && rm -f /tmp/*.whl
 
 COPY run.sh /
