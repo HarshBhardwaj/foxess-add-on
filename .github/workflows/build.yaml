@@ -26,6 +26,13 @@ jobs:
     permissions:
       contents: read
       packages: write
+    # Force the classic docker-driver builder. A leftover docker-container
+    # builder (from setup-buildx-action / prior runs) keeps images in the
+    # buildx cache only — then home-assistant/builder's `docker tag` fails
+    # with "No such image". BUILDX_BUILDER is forwarded into the builder
+    # container via its --env-file.
+    env:
+      BUILDX_BUILDER: default
     strategy:
       # Run the two arches ONE AT A TIME. Both legs land on the same
       # self-hosted runner pool and home-assistant/builder installs+execs
@@ -47,22 +54,31 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
-      # Self-hosted runners PERSIST buildx state between jobs. A leftover
-      # docker-container builder (from an earlier setup-buildx-action run)
-      # is still the default on this machine, so builds go to the buildx
-      # cache instead of the local image store — then the builder's
-      # `docker tag ...:0.1.4 ...:latest` fails with "No such image".
-      # Force the classic built-in 'default' (docker-driver) builder, which
-      # loads images straight into the daemon's store. Also delete any
-      # persisted container builders so they can't be re-selected.
+      # home-assistant/builder mounts ~/.docker as /root/.docker, so prior
+      # runs leave root-owned buildx activity files that make plain
+      # `docker buildx ls` fail with "permission denied" for gitrunner.
+      # Clean that up, select the default docker-driver builder, and drop
+      # any leftover container builders.
       - name: Reset buildx to the default docker driver
         run: |
+          set +e
+          if command -v sudo >/dev/null && sudo -n true 2>/dev/null; then
+            sudo rm -rf "${HOME}/.docker/buildx/activity"
+            sudo chown -R "$(id -u):$(id -g)" "${HOME}/.docker/buildx" 2>/dev/null
+          else
+            rm -rf "${HOME}/.docker/buildx/activity" 2>/dev/null
+          fi
+          set -e
+
           docker buildx use default
+
+          set +e
           for b in $(docker buildx ls --format '{{.Name}}' 2>/dev/null | grep -v '^default$' || true); do
-            docker buildx rm "$b" 2>/dev/null || true
+            docker buildx rm -f "$b" 2>/dev/null
           done
           echo "Active builders:"
-          docker buildx ls
+          docker buildx ls || true
+          set -e
 
       # Only authenticate when we actually push (i.e. not on pull requests).
       - name: Log in to GHCR
