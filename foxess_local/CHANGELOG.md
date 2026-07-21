@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.6
+
+- Fix Grid Import/Export and Load reading 0. Grid and load now come from model
+  65031 (Fox Hub G2 "HubInfo") read at the gateway address, where the whole-home
+  meter values live — verified against the device (959 W import matching
+  FoxCloud). Previously these were read from model 65004 at the inverter address,
+  where they are zeroed, which caused the Energy dashboard to attribute all house
+  consumption to the battery.
+- Grid Import/Export Energy now use the Hub's real cumulative counters (import
+  3660.5 kWh / export 316.5 kWh on the reference unit) instead of the
+  unavailable revenue-meter registers; adds Grid Import/Export Energy Today.
+- Grid power sign verified: negative = import, positive = export.
+- Bundles foxess-local 0.3.0.
+
 ## 0.1.5
 
 - Bundle foxess-local 0.2.0. Adds battery charge/discharge power and cumulative
