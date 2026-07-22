@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bashio
-# FoxESS Local add-on entrypoint.
-# Reads device settings from the add-on options and the MQTT broker details
-# straight from the Home Assistant MQTT service (Mosquitto broker add-on).
+# FoxESS Local app entrypoint.
+# Reads device settings from the app options and the MQTT broker details
+# straight from the Home Assistant MQTT service (Mosquitto broker app).
 
 set -e
 
@@ -11,11 +11,11 @@ PREFIX="$(bashio::config 'topic_prefix')"
 DISCOVERY="$(bashio::config 'discovery_prefix')"
 
 if bashio::var.is_empty "${FOX_HOST}"; then
-    bashio::exit.nok "Set 'fox_host' to your inverter's IP address on the Configuration tab, then start the add-on."
+    bashio::exit.nok "Set 'fox_host' to your inverter's IP address on the Configuration tab, then start the app."
 fi
 
 if ! bashio::services.available "mqtt"; then
-    bashio::exit.nok "No MQTT service is available. Install/enable the Mosquitto broker add-on and the MQTT integration first."
+    bashio::exit.nok "No MQTT service is available. Install/enable the Mosquitto broker app and the MQTT integration first."
 fi
 
 MQTT_HOST="$(bashio::services mqtt 'host')"

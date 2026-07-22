@@ -1,4 +1,4 @@
-name: Build & publish add-on images
+name: Build & publish app images
 
 on:
   push:
@@ -16,7 +16,7 @@ on:
 # Never let two runs of this workflow overlap on the shared self-hosted
 # runners (a new push cancels an in-progress run for the same ref).
 concurrency:
-  group: build-addon-${{ github.ref }}
+  group: build-app-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -91,6 +91,7 @@ jobs:
 
       # On PRs, --test builds the image but does NOT push (validation only).
       # On push to main, no --test -> builds AND pushes to GHCR.
+      # --addon is required by home-assistant/builder (CLI flag name unchanged).
       - name: Build ${{ matrix.arch }}
         uses: home-assistant/builder@master
         with:

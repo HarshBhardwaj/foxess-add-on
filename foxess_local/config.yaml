@@ -1,5 +1,5 @@
 name: FoxESS Local
-version: "0.1.6"
+version: "0.1.7"
 slug: foxess_local
 description: Local FoxESS Smart WiLAN telemetry to MQTT with Home Assistant discovery
 url: https://github.com/HarshBhardwaj/foxess-add-on
@@ -15,7 +15,7 @@ boot: auto
 services:
   - mqtt:need
 # fox_host is intentionally blank — you MUST set your inverter's IP address
-# on the Configuration tab before starting the add-on.
+# on the Configuration tab before starting the app.
 options:
   fox_host: ""
   interval: 15
