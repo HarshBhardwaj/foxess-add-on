@@ -1,4 +1,4 @@
-# FoxESS Local — Home Assistant Add-on Repository
+# FoxESS Local — Home Assistant App Repository
 
 Fully local FoxESS Smart WiLAN → MQTT bridge for Home Assistant. Reads your
 inverter over the LAN (no FoxCloud, no account, no internet) and publishes ~23
@@ -6,22 +6,36 @@ sensors via MQTT Discovery, so a **FoxESS** device appears automatically in
 Home Assistant — battery, solar, grid, and inverter, ready for the Energy
 dashboard.
 
+> **Note:** Home Assistant 2026.2 (Feb 2026) renamed **Add-ons** to **Apps** in
+> the UI. This README uses the current **Apps** wording; on older Home Assistant
+> you'll find the same things under **Add-ons**. The packaging is unchanged —
+> folders and `config.yaml` still use the `addon` term.
+
 ## One-click install
 
-[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FHarshBhardwaj%2Ffoxess-add-on)
+[![Open your Home Assistant instance and add the FoxESS Local repository.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FHarshBhardwaj%2Ffoxess-add-on)
 
-1. Click the button above (or **Settings → Add-ons → Add-on Store → ⋮ →
-   Repositories**, paste `https://github.com/HarshBhardwaj/foxess-add-on`, Add).
+1. Click the button above and confirm **Add** in the dialog.
 2. The store now lists **FoxESS Local** under this repository — open it and click
    **Install**.
 3. On the **Configuration** tab, set `fox_host` to your inverter's IP address
    (it ships blank on purpose) and **Save**.
-4. **Start** the add-on, and enable **Start on boot** + **Watchdog**.
+4. **Start** the app, and enable **Start on boot** + **Watchdog**.
+
+If the button doesn't open your instance, add the repository manually — paste
+`https://github.com/HarshBhardwaj/foxess-add-on` under **Repositories**:
+
+- **Home Assistant 2026.2 and newer:** **Settings → Apps → App store → ⋮
+  (top-right) → Repositories**.
+- **Older Home Assistant:** **Settings → Add-ons → Add-on Store → ⋮ →
+  Repositories**.
+
+Then continue from step 2 above.
 
 ## Requirements
 
-- Home Assistant OS or Supervised (add-ons).
-- The **Mosquitto broker** add-on and the **MQTT** integration (the add-on pulls
+- Home Assistant OS or Supervised (required to run apps / add-ons).
+- The **Mosquitto broker** app and the **MQTT** integration (the app pulls
   the broker credentials from Home Assistant automatically — no config needed).
 - Your FoxESS device reachable on the LAN (a static DHCP reservation is
   recommended so its IP stays stable).
@@ -41,7 +55,7 @@ options.
 
 ## Notes
 
-- The add-on only **reads** the inverter — it never writes.
+- The app only **reads** the inverter — it never writes.
 - Grid/load instantaneous power needs a CT meter (not fitted on all installs);
   solar and battery come straight from the inverter.
 - Treat the device as an untrusted IoT endpoint: dedicated VLAN, firewalled,
