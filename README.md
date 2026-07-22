@@ -8,8 +8,7 @@ dashboard.
 
 > **Note:** Home Assistant 2026.2 (Feb 2026) renamed **Add-ons** to **Apps** in
 > the UI. This README uses the current **Apps** wording; on older Home Assistant
-> you'll find the same things under **Add-ons**. The packaging is unchanged —
-> folders and `config.yaml` still use the `addon` term.
+> the same screens still appear under **Add-ons**.
 
 ## One-click install
 
@@ -34,7 +33,8 @@ Then continue from step 2 above.
 
 ## Requirements
 
-- Home Assistant OS or Supervised (required to run apps / add-ons).
+- Home Assistant OS (apps require the Supervisor; Home Assistant Container
+  does not include it).
 - The **Mosquitto broker** app and the **MQTT** integration (the app pulls
   the broker credentials from Home Assistant automatically — no config needed).
 - Your FoxESS device reachable on the LAN (a static DHCP reservation is

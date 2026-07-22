@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.7
+
+- Align user-facing docs with Home Assistant 2026.2: **Add-ons** → **Apps**
+  (including the Info-tab README, install steps, and log messages).
+- Fix the one-click install badge alt text; keep the official repository
+  redirect URL. Manual install now documents **Settings → Apps → App store**
+  for 2026.2+ and the legacy **Add-ons** path for older installs.
+- Requirements: Home Assistant OS only (Supervised has been unsupported since
+  2025.12). Repository display name simplified to **FoxESS Local**.
+
 ## 0.1.6
 
 - Fix Grid Import/Export and Load reading 0. Grid and load now come from model
@@ -34,7 +44,7 @@ Power`, `Grid Export Power`) plus `AC Input/Output Energy Total` as a grid
 
 ## 0.1.3
 
-- Restructure the repo as a Home Assistant add-on repository.
+- Restructure the repo as a Home Assistant app repository.
 
 ## 0.1.2
 
@@ -43,7 +53,7 @@ Power`, `Grid Export Power`) plus `AC Input/Output Energy Total` as a grid
 
 ## 0.1.1
 
-- Add `build.yaml` and a default base image so the add-on always builds.
+- Add `build.yaml` and a default base image so the app always builds.
 - `fox_host` now ships blank and is required (set it on the Configuration tab).
 
 ## 0.1.0

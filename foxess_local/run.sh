@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv bashio
-# FoxESS Local add-on entrypoint.
-# Reads device settings from the add-on options and the MQTT broker details
+# FoxESS Local app entrypoint.
+# Reads device settings from the app options and the MQTT broker details
 # straight from the Home Assistant MQTT service (Mosquitto broker app).
 
 set -e

@@ -8,7 +8,6 @@ you don't configure them here.
 
 > **Note:** Home Assistant 2026.2 renamed **Add-ons** to **Apps** in the UI.
 > Paths below use **Apps**; on older Home Assistant look under **Add-ons**.
-> Packaging is unchanged (`foxess_local/`, `config.yaml`, slug).
 
 ## Install
 
