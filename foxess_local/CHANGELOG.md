@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0
+
+- Bundle foxess-local **0.4.0**.
+- **Fix crash-loop on transient device timeouts:** the MQTT poll loop now
+  retries after `FoxTimeoutError` (and other `FoxError`s) instead of exiting,
+  so a slow SunSpec read no longer puts the app in `Error` under Watchdog.
+- Adds the Phase 11 EMS Python API in the bundled SDK (`fox.ems`); the HA app
+  still only publishes read-only telemetry — EMS writes remain opt-in from a
+  trusted host.
+
 ## 0.1.7
 
 - Align user-facing docs with Home Assistant 2026.2: **Add-ons** → **Apps**
